@@ -241,7 +241,7 @@ const projects = [
       },
     ],
     image: YT,
-    source_code_link: "https://github.com/spexzee/YouTube-Clone",
+    source_code_link: "https://github.com/spexzee/YouTub",
     demo_link: "https://spexzee-youtube.vercel.app/",
   },
 ];
