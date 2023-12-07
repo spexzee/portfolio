@@ -214,8 +214,8 @@ const projects = [
         color: "blue-text-gradient",
       },
       {
-        name: "fron-end",
-        color: "green-text-gradient",
+        name: "front-end",
+        color: "pink-text-gradient",
       },
     ],
     image: Resto,
@@ -231,8 +231,8 @@ const projects = [
         name: "react",
         color: "blue-text-gradient",
       },
-      {
-        name: "fron-end",
+{
+name: "API",
         color: "green-text-gradient",
       },
       {
