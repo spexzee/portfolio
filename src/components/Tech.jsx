@@ -15,9 +15,9 @@ const Tech = () => {
   //   placeItems: 'center'
   // }
   return (
-    <>
+    <div id="skills">
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center mb-6`}  id="skills">Skills</p>
+        <p className={`${styles.sectionSubText} text-center mb-6`}  >Skills</p>
        {/* <h2 className={`${styles.sectionHeadText}`}>Projects.</h2> */}
       </motion.div>
       <div className="flex flex-row flex-wrap justify-center gap-10" >
@@ -27,7 +27,7 @@ const Tech = () => {
           </div>
         ))}
       </div>
-    </>
+    <div/>
   );
 };
 
