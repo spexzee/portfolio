@@ -4,6 +4,9 @@ import { styles } from '../styles';
 // import { ComputersCanvas } from './canvas';
 
 const Hero = () => {
+  const handleClickResume=()=>{
+    window.open('https://drive.google.com/file/d/149dgFb0tSNVt4H-UDjFS0DCBfyJZ6mlp/view?usp=drive_link');
+  }
   return (
     <section className={`relative w-full h-screen mx-auto`}>
       <div
@@ -22,6 +25,7 @@ const Hero = () => {
             I am a Front-End Developer,Developed user <br className='sm:block hidden' />
             interfaces and web applications
           </p>
+          <button class="button-resume mt-20 bg-violet-500" role="button" onClick={handleClickResume}><span class="text">Resume</span><span></span></button>
         </div>
       </div>
 
@@ -29,7 +33,7 @@ const Hero = () => {
 
       <div className='absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center'>
         <a href='#about'>
-          <div className='w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2'>
+          {/* <div className='w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2'>
             <motion.div
               animate={{
                 y: [0, 24, 0],
@@ -41,7 +45,7 @@ const Hero = () => {
               }}
               className='w-3 h-3 rounded-full bg-secondary mb-1'
             />
-          </div>
+          </div> */}
         </a>
       </div>
     </section>

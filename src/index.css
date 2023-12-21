@@ -202,3 +202,82 @@
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
   }
 }
+
+/* resume button css  */
+.button-resume {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-resume:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #00ffd5,
+    #002bff,
+    #7a00ff
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-resume 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-resume {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-resume:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width:1024px) {
+  .button-resume{
+    margin-top: 3rem;
+  }
+  
+}
+@media screen and (max-width:768px) {
+  .button-resume{
+    margin-top: 1.5rem;
+  }
+  
+}
+
+/* navbar box shadow  */
+.boxShadow{
+  box-shadow: 1px 1px 1000px rgba(106, 53, 242, 0.69);
+}
