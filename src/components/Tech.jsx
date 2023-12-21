@@ -15,19 +15,19 @@ const Tech = () => {
   //   placeItems: 'center'
   // }
   return (
-    <>
+    <div id="skills">
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center mb-6`}>Skills</p>
-        {/* <h2 className={`${styles.sectionHeadText}`}>Projects.</h2> */}
+        <p className={`${styles.sectionSubText} text-center mb-6`}  >Skills</p>
+       {/* <h2 className={`${styles.sectionHeadText}`}>Projects.</h2> */}
       </motion.div>
       <div className="flex flex-row flex-wrap justify-center gap-10" >
         {technologies.map((technology) => (
-          <div className='w-28 h-28' key={technology.name} id="skills" >
+          <div className='w-28 h-28' key={technology.name}>
             <BallCanvas icon={technology.icon} />
           </div>
         ))}
       </div>
-    </>
+    <div/>
   );
 };
 
