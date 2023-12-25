@@ -22,8 +22,8 @@ const Hero = () => {
             Hi, I'm <span className='text-[#915EFF]'>Spexzee</span>
           </h1>
           <p className={`${styles.heroSubText} mt-2 text-white-100`}>
-            I am a passionate Front-End React Developer, from <br className='sm:block hidden' />
-            Bengaluru 📍
+            I am a passionate Front-End React Developer,<br className='sm:block hidden' />
+            from Bengaluru 📍
           </p>
           <button class="button-resume mt-20 bg-violet-500" role="button" onClick={handleClickResume}><span class="text">Resume</span><span></span></button>
         </div>
