@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <div className='bg-black-100 h-[7em] flex justify-evenly flex-col align-middle'>
             <div className="copyright">
-                <p className="text-white text-center mt-4">&copy; 2023 Spexzee. All rights reserved</p>
+                <p className="text-white text-center mt-4">&copy; 2024 Spexzee. All rights reserved</p>
             </div>
             <div className="flex gap-6 justify-center">
                 <FiInstagram fontSize={27} className='cursor-pointer' onClick={() => {
