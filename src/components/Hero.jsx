@@ -5,7 +5,7 @@ import { styles } from '../styles';
 
 const Hero = () => {
   const handleClickResume=()=>{
-    window.open('https://drive.google.com/file/d/1X79Q0FEK7hjwVHT0cc4LiDF00sCVu3oi/view?usp=sharing');
+    window.open('https://drive.google.com/file/d/13ob2P4e_gfXQnPE50oAGkLA8Lem5ep0P/view?usp=sharing');
   }
   return (
     <section className={`relative w-full h-screen mx-auto`}>
