@@ -14,6 +14,11 @@ import {
   GPT,
   Resto,
   YT,
+  typescript,
+  redux,
+  mongodb,
+  Next,
+  promptWorld,
 } from "../assets";
 
 export const navLinks = [
@@ -64,8 +69,24 @@ const technologies = [
     icon: javascript,
   },
   {
+    name: "TypeScript",
+    icon: typescript,
+  },
+  {
     name: "React JS",
     icon: reactjs,
+  },
+  {
+    name: "Next JS",
+    icon: Next,
+  },
+  {
+    name: "Redux/RTK",
+    icon: redux,
+  },
+  {
+    name: "MongoDB",
+    icon: mongodb,
   },
   {
     name: "Tailwind CSS",
@@ -161,6 +182,54 @@ const testimonials = [
 
 const projects = [
   {
+    name: "Youtube-Clone",
+    description:
+      "Developed a YouTube clone in React.js for a similar video-sharing experience.Implemented a search feature for Finding related videos.",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "API",
+        color: "green-text-gradient",
+      },
+      {
+        name: "RapidAPI",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: YT,
+    source_code_link: "https://github.com/spexzee/YouTube",
+    demo_link: "https://spexzee-youtube.vercel.app/",
+  },
+  {
+    name: "Prompt-World",
+    description:
+      "Discover & Share AI-Powered Prompts Promptopia is an open-source AI prompting tool for modern world to discover, create and share creative prompts",
+    tags: [
+      {
+        name: "next.js",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "next-Auth",
+        color: "green-text-gradient",
+      },
+      {
+        name: "MongoDB",
+        color: "pink-text-gradient",
+      },
+      {
+        name: "OAuth",
+        color: "blue-text-gradient",
+      },
+    ],
+    image: promptWorld,
+    source_code_link: "https://github.com/spexzee/prompt-world",
+    demo_link: "https://spexzee-prompt.netlify.app/",
+  },
+  {
     name: "iNote-Book",
     description:
       "Implemented note functionalities like creation, editing, and deletion, with MongoDB for data storage, resulting in a user - friendly application",
@@ -222,28 +291,7 @@ const projects = [
     source_code_link: "https://github.com/spexzee/Restaurant-",
     demo_link: "https://spexzee-restaurant.netlify.app/",
   },
-  {
-    name: "Youtube-Clone",
-    description:
-      "Developed a YouTube clone in React.js for a similar video-sharing experience.Implemented a search feature for Finding related videos.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-{
-name: "API",
-        color: "green-text-gradient",
-      },
-      {
-        name: "RapidAPI",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: YT,
-    source_code_link: "https://github.com/spexzee/YouTub",
-    demo_link: "https://spexzee-youtube.vercel.app/",
-  },
+
 ];
 
 export { services, technologies, experiences, testimonials, projects };

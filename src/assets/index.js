@@ -32,7 +32,9 @@ import tripguide from "./tripguide.png";
 import iNote from '../assets/tech/iNote.png'
 import GPT from '../assets/tech/gpt.png'
 import Resto from '../assets/tech/resto.png'
-import YT from '../assets/tech/yt.png'
+import YT from '../assets/tech/yt.png';
+import Next from './tech/nextjs.svg';
+import promptWorld from './tech/prompt-world.png'
 
 export {
   logo,
@@ -67,4 +69,6 @@ export {
   GPT,
   Resto,
   YT,
+  Next,
+  promptWorld,
 };
