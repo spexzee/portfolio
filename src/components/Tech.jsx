@@ -8,12 +8,6 @@ import { styles } from "../styles";
 import { textVariant } from './../utils/motion';
 
 const Tech = () => {
-  // const styles = {
-  //   display: 'grid',
-  //   gridTemplateColumns: 'repeat(4, 1fr)',
-  //   gap: '2rem',
-  //   placeItems: 'center'
-  // }
   return (
     <div id="skills">
       <motion.div variants={textVariant()}>
