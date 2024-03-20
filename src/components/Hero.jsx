@@ -1,7 +1,4 @@
-import { motion } from 'framer-motion';
-
 import { styles } from '../styles';
-// import { ComputersCanvas } from './canvas';
 
 const Hero = () => {
   const handleClickResume=()=>{
@@ -25,11 +22,9 @@ const Hero = () => {
             I am a passionate Front-End React Developer,<br className='sm:block hidden' />
             from Bengaluru 📍
           </p>
-          <button class="button-resume mt-20 bg-violet-500" role="button" onClick={handleClickResume}><span class="text">Resume</span><span></span></button>
+          <button className="button-resume mt-20 bg-violet-500" role="button" onClick={handleClickResume}><span className="text">Resume</span><span></span></button>
         </div>
       </div>
-
-{/*       <ComputersCanvas /> */}
     </section>
   );
 };
