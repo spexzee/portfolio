@@ -67,18 +67,22 @@ const technologies = [
   {
     name: "JavaScript",
     icon: javascript,
+
   },
   {
     name: "TypeScript",
     icon: typescript,
+
   },
   {
     name: "React JS",
     icon: reactjs,
+
   },
   {
     name: "Next JS",
     icon: Next,
+
   },
   {
     name: "Redux/RTK",
