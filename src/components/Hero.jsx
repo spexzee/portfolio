@@ -2,7 +2,7 @@ import { styles } from '../styles';
 
 const Hero = () => {
   const handleClickResume=()=>{
-    window.open('https://drive.google.com/file/d/13ob2P4e_gfXQnPE50oAGkLA8Lem5ep0P/view?usp=sharing');
+    window.open('https://drive.google.com/file/d/1NUQLSZ8jjAd2xFkgaUx2ARLqdiWGrJYA/view?usp=sharing');
   }
   return (
     <section className={`relative w-full h-screen mx-auto`}>

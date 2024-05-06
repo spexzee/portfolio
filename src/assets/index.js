@@ -35,12 +35,17 @@ import Resto from '../assets/tech/resto.png'
 import YT from '../assets/tech/yt.png';
 import Next from './tech/nextjs.svg';
 import promptWorld from './tech/prompt-world.png'
+import fuzzie from './tech/fuzzie.png'
+import express from './tech/express-jspng.png'
+import iconGithub from './tech/icon-github.png'
 
 export {
   logo,
   backend,
+  express,
   creator,
   mobile,
+  iconGithub,
   web,
   github,
   menu,
@@ -71,4 +76,5 @@ export {
   YT,
   Next,
   promptWorld,
+  fuzzie
 };
