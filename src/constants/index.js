@@ -147,9 +147,9 @@ const projects = [
     demo_link: "https://sp-fuzzie.vercel.app/",
   },
   {
-    name: "Youtube-Clone",
+    name: "Youtube-Player",
     description:
-      "Developed a YouTube clone in React.js for a similar video-sharing experience.Implemented a search feature for Finding related videos.",
+      "Developed a YouTube Player in React.js for easy video watching.Added a search tool to find related videos quickly.",
     tags: [
       {
         name: "react",
