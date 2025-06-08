@@ -1,14 +1,30 @@
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import React, { Suspense, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Preload } from "@react-three/drei";
+import * as THREE from "three";
 
 import CanvasLoader from "../Loader";
 
 const Earth = () => {
-  const earth = useGLTF("./planet/scene.gltf");
+  const meshRef = useRef();
+  
+  // Auto-rotate the planet
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += delta * 0.2;
+    }
+  });
 
   return (
-    <primitive object={earth.scene} scale={2.5} position-y={0} rotation-y={0} />
+    <mesh ref={meshRef} scale={2.5}>
+      <sphereGeometry args={[1, 64, 64]} />
+      <meshStandardMaterial
+        color="#4a90e2"
+        roughness={0.8}
+        metalness={0.1}
+        map={null}
+      />
+    </mesh>
   );
 };
 
@@ -33,8 +49,9 @@ const EarthCanvas = () => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
         <Earth />
-
         <Preload all />
       </Suspense>
     </Canvas>
