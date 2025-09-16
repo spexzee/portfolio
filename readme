@@ -40,7 +40,7 @@ A modern, interactive portfolio website built with React 18, TypeScript, and Thr
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/portfolio.git
+   git clone https://github.com/spexzee/portfolio.git
    cd portfolio
    ```
 
@@ -133,14 +133,6 @@ The built files in the `dist` folder can be deployed to:
 - **GitHub Pages**
 - **AWS S3 + CloudFront**
 
-### Environment Variables
-Create a `.env` file for EmailJS configuration:
-```env
-VITE_EMAILJS_SERVICE_ID=your_service_id
-VITE_EMAILJS_TEMPLATE_ID=your_template_id
-VITE_EMAILJS_PUBLIC_KEY=your_public_key
-```
-
 ## 📝 Customization
 
 ### Update Personal Information
@@ -185,7 +177,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Software Developer** - Ornate Interior Decor, Bengaluru, India
 
-Project Link: [https://github.com/your-username/portfolio](https://github.com/your-username/portfolio)
+Project Link: [https://github.com/spexzee/portfolio](https://github.com/spexzee/portfolio)
 
 ---
 
