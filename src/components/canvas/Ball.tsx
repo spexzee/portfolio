@@ -121,9 +121,10 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
 
 interface BallCanvasProps {
   icon: string;
+  enableRotation?: boolean; // Add prop to control rotation
 }
 
-const BallCanvas: React.FC<BallCanvasProps> = ({ icon }) => {
+const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false }) => {
   return (
     <Canvas
       frameloop='demand'
@@ -132,7 +133,11 @@ const BallCanvas: React.FC<BallCanvasProps> = ({ icon }) => {
     >
       <Suspense fallback={<CanvasLoader />}>
         <BallErrorBoundary>
-          <OrbitControls enableZoom={false} />
+          <OrbitControls 
+            enableZoom={false} 
+            enableRotate={enableRotation} // Use prop to control rotation
+            enablePan={false}
+          />
           <Ball imgUrl={icon} />
         </BallErrorBoundary>
       </Suspense>
