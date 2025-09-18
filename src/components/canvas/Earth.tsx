@@ -1,10 +1,54 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, Component, ErrorInfo, ReactNode } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import CanvasLoader from "../Loader";
 
-const Earth: React.FC = () => {
+// Error Boundary for Earth component
+interface EarthErrorBoundaryState {
+  hasError: boolean;
+}
+
+interface EarthErrorBoundaryProps {
+  children: ReactNode;
+}
+
+class EarthErrorBoundary extends Component<EarthErrorBoundaryProps, EarthErrorBoundaryState> {
+  constructor(props: EarthErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_: Error): EarthErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.warn('Earth component error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Fallback: Simple sphere when Earth model fails to load
+      return (
+        <mesh scale={2.5} position-y={0}>
+          <sphereGeometry args={[1, 32, 32]} />
+          <meshStandardMaterial 
+            color="#4a90e2" 
+            wireframe={true}
+            transparent
+            opacity={0.6}
+          />
+        </mesh>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// Separate component for GLTF loading with proper error handling
+const EarthModel: React.FC = () => {
   const earth = useGLTF("./planet/scene.gltf");
   const meshRef = useRef<THREE.Group>(null);
   
@@ -26,6 +70,24 @@ const Earth: React.FC = () => {
   );
 };
 
+const Earth: React.FC = () => {
+  return (
+    <Suspense fallback={
+      <mesh scale={2.5} position-y={0}>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshStandardMaterial 
+          color="#4a90e2" 
+          wireframe={true}
+          transparent
+          opacity={0.3}
+        />
+      </mesh>
+    }>
+      <EarthModel />
+    </Suspense>
+  );
+};
+
 // Preload the GLTF model
 useGLTF.preload("./planet/scene.gltf");
 
@@ -43,7 +105,7 @@ const EarthCanvas: React.FC = () => {
         position: [-4, 3, 6],
       }}
     >
-      <Suspense fallback={<CanvasLoader />}>
+      <EarthErrorBoundary>
         <OrbitControls
           autoRotate
           enableZoom={false}
@@ -55,7 +117,7 @@ const EarthCanvas: React.FC = () => {
         <pointLight position={[10, 10, 10]} intensity={0.8} />
         <Earth />
         <Preload all />
-      </Suspense>
+      </EarthErrorBoundary>
     </Canvas>
   );
 };

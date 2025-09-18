@@ -136,7 +136,18 @@ const Contact: React.FC = () => {
         variants={slideIn("right", "tween", 0.2, 1)}
         className='xl:flex-1 xl:h-auto md:h-[550px] h-[350px]'
       >
-        <EarthCanvas />
+        <div className="w-full h-full relative">
+          <EarthCanvas />
+          {/* Fallback content if Earth fails to load */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="text-center text-secondary opacity-50">
+              <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30 animate-pulse" />
+              </div>
+              <p className="text-sm">Loading 3D Earth...</p>
+            </div>
+          </div>
+        </div>
       </motion.div>
     </div>
   );
