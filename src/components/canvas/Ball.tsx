@@ -121,7 +121,7 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
       }
       
       // Now safely call trim since we know url is a valid string
-      const trimmedUrl = url.trim();
+      const trimmedUrl = `${url}`.trim();
       
       // Check if trimmed URL is not empty and has valid format
       return trimmedUrl !== '' && 
