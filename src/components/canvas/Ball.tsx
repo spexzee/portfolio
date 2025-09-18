@@ -1,4 +1,4 @@
-import React, { Suspense, Component, ErrorInfo, ReactNode, useCallback } from "react";
+import React, { Suspense, Component, ErrorInfo, ReactNode, useCallback, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Decal,
@@ -78,6 +78,35 @@ const FallbackBall: React.FC = () => (
   </Float>
 );
 
+// Enhanced Ball component with better texture handling
+const BallWithTexture: React.FC<{ imgUrl: string }> = ({ imgUrl }) => {
+  const [texture] = useTexture([imgUrl]);
+  
+  return (
+    <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
+      <ambientLight intensity={0.25} />
+      <directionalLight position={[0, 0, 0.05]} />
+      <mesh castShadow receiveShadow scale={2.75}>
+        <icosahedronGeometry args={[1, 1]} />
+        <meshStandardMaterial
+          color='#fff8eb'
+          polygonOffset
+          polygonOffsetFactor={-5}
+          flatShading
+        />
+        {texture && (
+          <Decal
+            position={[0, 0, 1]}
+            rotation={[2 * Math.PI, 0, 6.25]}
+            scale={1}
+            map={texture}
+          />
+        )}
+      </mesh>
+    </Float>
+  );
+};
+
 const Ball: React.FC<BallProps> = ({ imgUrl }) => {
   // Validate the image URL
   const isValidUrl = useCallback((url: string | null | undefined): boolean => {
@@ -107,41 +136,11 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
     return <FallbackBall />;
   }
 
-  let texture = null;
-  
-  try {
-    // Attempt to load texture - we know imgUrl is valid string at this point
-    [texture] = useTexture([imgUrl as string]);
-  } catch (error) {
-    console.warn('Texture loading failed for:', imgUrl, error);
-    return <FallbackBall />;
-  }
-  
-  // If texture didn't load properly, show fallback
-  if (!texture) {
-    return <FallbackBall />;
-  }
-
+  // Use Suspense and Error Boundary for proper texture loading
   return (
-    <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
-      <ambientLight intensity={0.25} />
-      <directionalLight position={[0, 0, 0.05]} />
-      <mesh castShadow receiveShadow scale={2.75}>
-        <icosahedronGeometry args={[1, 1]} />
-        <meshStandardMaterial
-          color='#fff8eb'
-          polygonOffset
-          polygonOffsetFactor={-5}
-          flatShading
-        />
-        <Decal
-          position={[0, 0, 1]}
-          rotation={[2 * Math.PI, 0, 6.25]}
-          scale={1}
-          map={texture}
-        />
-      </mesh>
-    </Float>
+    <Suspense fallback={<FallbackBall />}>
+      <BallWithTexture imgUrl={imgUrl as string} />
+    </Suspense>
   );
 };
 
@@ -160,16 +159,14 @@ const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false })
       dpr={[1, 2]}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <Suspense fallback={<CanvasLoader />}>
-        <BallErrorBoundary>
-          <OrbitControls 
-            enableZoom={false} 
-            enableRotate={enableRotation}
-            enablePan={false}
-          />
-          <Ball imgUrl={safeIcon} />
-        </BallErrorBoundary>
-      </Suspense>
+      <BallErrorBoundary>
+        <OrbitControls 
+          enableZoom={false} 
+          enableRotate={enableRotation}
+          enablePan={false}
+        />
+        <Ball imgUrl={safeIcon} />
+      </BallErrorBoundary>
 
       <Preload all />
     </Canvas>
