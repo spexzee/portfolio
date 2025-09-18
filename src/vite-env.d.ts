@@ -1,6 +1,12 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
+  readonly DEV: boolean
+  readonly PROD: boolean
+  readonly MODE: string
+  readonly BASE_URL: string
+  readonly SSR: boolean
+  readonly VITE_DEBUG_PASSWORD: string
   readonly VITE_API_URL: string
   readonly VITE_APP_API_URL: string
   readonly VITE_EMAILJS_SERVICE_ID: string
