@@ -1,4 +1,4 @@
-import React, { Suspense, Component, ErrorInfo, ReactNode, useCallback, useState, useEffect } from "react";
+import React, { Suspense, Component, ErrorInfo, ReactNode, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Decal,
@@ -7,7 +7,6 @@ import {
   Preload,
   useTexture,
 } from "@react-three/drei";
-import CanvasLoader from "../Loader";
 
 // Error Boundary Component
 interface ErrorBoundaryState {
