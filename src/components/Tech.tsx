@@ -102,7 +102,7 @@ const BouncyBall: React.FC<{
       className="flex flex-col items-center justify-start select-none" // Changed to justify-start
     >
       <div className="w-28 h-28 pointer-events-none relative">
-        <BallCanvas icon={technology?.icon} enableRotation={false} />
+        <BallCanvas icon={technology?.icon || ''} enableRotation={false} />
       </div>
       {showLabel && (
         <div className="mt-1 w-full text-center pointer-events-none">
@@ -338,7 +338,7 @@ const Tech: React.FC = () => {
     <div className="flex flex-row flex-wrap justify-center gap-10">
       {technologies.map((technology: Technology) => (
         <div className='w-28 h-28 flex flex-col items-center' key={technology.name}>
-          <BallCanvas icon={technology.icon ?? ''} enableRotation={true} />
+          <BallCanvas icon={technology.icon || ''} enableRotation={true} />
           <p className="text-center text-xs mt-2 text-white/80 font-medium">{technology.name}</p>
         </div>
       ))}

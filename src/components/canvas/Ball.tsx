@@ -57,7 +57,7 @@ class BallErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
 }
 
 interface BallProps {
-  imgUrl: string;
+  imgUrl: string | null | undefined;
 }
 
 // Simple fallback ball component  
@@ -79,11 +79,23 @@ const FallbackBall: React.FC = () => (
 
 const Ball: React.FC<BallProps> = ({ imgUrl }) => {
   // Validate the image URL
-  const isValidUrl = useCallback((url: string) => {
+  const isValidUrl = useCallback((url: string | null | undefined): boolean => {
     try {
-      return url && typeof url === 'string' && url?.trim() !== '' && 
-             (url.startsWith('http') || url.startsWith('/') || url.startsWith('data:'));
-    } catch {
+      // First check if url exists and is a string
+      if (!url || typeof url !== 'string') {
+        return false;
+      }
+      
+      // Now safely call trim since we know url is a valid string
+      const trimmedUrl = url.trim();
+      
+      // Check if trimmed URL is not empty and has valid format
+      return trimmedUrl !== '' && 
+             (trimmedUrl.startsWith('http') || 
+              trimmedUrl.startsWith('/') || 
+              trimmedUrl.startsWith('data:'));
+    } catch (error) {
+      console.warn('URL validation error:', error);
       return false;
     }
   }, []);
@@ -97,8 +109,8 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
   let texture = null;
   
   try {
-    // Attempt to load texture
-    [texture] = useTexture([imgUrl]);
+    // Attempt to load texture - we know imgUrl is valid string at this point
+    [texture] = useTexture([imgUrl as string]);
   } catch (error) {
     console.warn('Texture loading failed for:', imgUrl, error);
     return <FallbackBall />;
@@ -133,11 +145,14 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
 };
 
 interface BallCanvasProps {
-  icon: string;
+  icon: string | null | undefined;
   enableRotation?: boolean;
 }
 
 const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false }) => {
+  // Add additional safety check for icon prop
+  const safeIcon = icon || '';
+  
   return (
     <Canvas
       frameloop='demand'
@@ -151,7 +166,7 @@ const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false })
             enableRotate={enableRotation}
             enablePan={false}
           />
-          <Ball imgUrl={icon} />
+          <Ball imgUrl={safeIcon} />
         </BallErrorBoundary>
       </Suspense>
 
