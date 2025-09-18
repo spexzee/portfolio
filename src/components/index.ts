@@ -10,6 +10,7 @@ import Contact from './Contact';
 import MyButton from './MyButton';
 import SimpleLoader from './SimpleLoader';
 import ErrorBoundary from './ErrorBoundary';
+import ErrorTestButton from './ErrorTestButton';
 
 export {
   Hero,
@@ -25,5 +26,6 @@ export {
   StarsCanvas,
   MyButton,
   SimpleLoader,
-  ErrorBoundary
+  ErrorBoundary,
+  ErrorTestButton
 }

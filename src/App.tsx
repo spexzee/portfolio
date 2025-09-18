@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from "react-router-dom";
 
-import { About, Contact, Hero, Navbar, Tech, Works, StarsCanvas, Experience, ErrorBoundary } from "./components";
+import { About, Contact, Hero, Navbar, Tech, Works, StarsCanvas, Experience, ErrorBoundary, ErrorTestButton } from "./components";
 import Footer from "./components/Footer";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -27,6 +27,7 @@ const App: React.FC = () => {
               <StarsCanvas />
             </div>
             <Footer />
+            <ErrorTestButton />
           </div>
         </BrowserRouter>
       </QueryClientProvider>

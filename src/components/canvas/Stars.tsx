@@ -25,6 +25,12 @@ class StarsErrorBoundary extends Component<StarsErrorBoundaryProps, StarsErrorBo
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.warn('Stars component error:', error, errorInfo);
+    console.warn('Stars Error Context:', {
+      component: 'Stars',
+      file: 'src/components/canvas/Stars.tsx',
+      starCount: 5000,
+      timestamp: new Date().toISOString()
+    });
   }
 
   render() {

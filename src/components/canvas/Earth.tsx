@@ -24,6 +24,12 @@ class EarthErrorBoundary extends Component<EarthErrorBoundaryProps, EarthErrorBo
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.warn('Earth component error:', error, errorInfo);
+    console.warn('Earth Error Context:', {
+      component: 'Earth',
+      file: 'src/components/canvas/Earth.tsx',
+      modelPath: './planet/scene.gltf',
+      timestamp: new Date().toISOString()
+    });
   }
 
   render() {

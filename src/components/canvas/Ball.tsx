@@ -30,6 +30,11 @@ class BallErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.warn('Ball component error:', error, errorInfo);
     // Mobile error fix: Enhanced error boundary for better mobile experience
+    console.warn('Ball Error Context:', {
+      component: 'Ball',
+      file: 'src/components/canvas/Ball.tsx',
+      timestamp: new Date().toISOString()
+    });
   }
 
   render() {
