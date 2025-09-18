@@ -81,7 +81,7 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
   // Validate the image URL
   const isValidUrl = useCallback((url: string) => {
     try {
-      return url && typeof url === 'string' && url.trim() !== '' && 
+      return url && typeof url === 'string' && url?.trim() !== '' && 
              (url.startsWith('http') || url.startsWith('/') || url.startsWith('data:'));
     } catch {
       return false;
