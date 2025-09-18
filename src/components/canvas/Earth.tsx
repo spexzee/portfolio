@@ -2,7 +2,6 @@ import React, { Suspense, useRef, Component, ErrorInfo, ReactNode } from "react"
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import CanvasLoader from "../Loader";
 
 // Error Boundary for Earth component
 interface EarthErrorBoundaryState {
