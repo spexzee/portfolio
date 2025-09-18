@@ -9,6 +9,7 @@ import Feedbacks from './Feedbacks';
 import Contact from './Contact';
 import MyButton from './MyButton';
 import SimpleLoader from './SimpleLoader';
+import ErrorBoundary from './ErrorBoundary';
 
 export {
   Hero,
@@ -23,5 +24,6 @@ export {
   BallCanvas,
   StarsCanvas,
   MyButton,
-  SimpleLoader
+  SimpleLoader,
+  ErrorBoundary
 }

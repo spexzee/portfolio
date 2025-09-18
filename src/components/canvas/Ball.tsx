@@ -34,7 +34,7 @@ class BallErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
 
   render() {
     if (this.state.hasError) {
-      // Fallback UI - simple colored sphere
+      // Enhanced fallback UI
       return (
         <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
           <ambientLight intensity={0.25} />
@@ -60,12 +60,29 @@ interface BallProps {
   imgUrl: string;
 }
 
+// Simple fallback ball component  
+const FallbackBall: React.FC = () => (
+  <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
+    <ambientLight intensity={0.25} />
+    <directionalLight position={[0, 0, 0.05]} />
+    <mesh castShadow receiveShadow scale={2.75}>
+      <icosahedronGeometry args={[1, 1]} />
+      <meshStandardMaterial
+        color='#915EFF'
+        polygonOffset
+        polygonOffsetFactor={-5}
+        flatShading
+      />
+    </mesh>
+  </Float>
+);
+
 const Ball: React.FC<BallProps> = ({ imgUrl }) => {
-  
   // Validate the image URL
   const isValidUrl = useCallback((url: string) => {
     try {
-      return url && typeof url === 'string' && url.trim() !== '';
+      return url && typeof url === 'string' && url.trim() !== '' && 
+             (url.startsWith('http') || url.startsWith('/') || url.startsWith('data:'));
     } catch {
       return false;
     }
@@ -74,25 +91,23 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
   // If URL is invalid, return fallback immediately
   if (!isValidUrl(imgUrl)) {
     console.warn('Invalid image URL provided:', imgUrl);
-    return (
-      <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
-        <ambientLight intensity={0.25} />
-        <directionalLight position={[0, 0, 0.05]} />
-        <mesh castShadow receiveShadow scale={2.75}>
-          <icosahedronGeometry args={[1, 1]} />
-          <meshStandardMaterial
-            color='#915EFF'
-            polygonOffset
-            polygonOffsetFactor={-5}
-            flatShading
-          />
-        </mesh>
-      </Float>
-    );
+    return <FallbackBall />;
+  }
+
+  let texture = null;
+  
+  try {
+    // Attempt to load texture
+    [texture] = useTexture([imgUrl]);
+  } catch (error) {
+    console.warn('Texture loading failed for:', imgUrl, error);
+    return <FallbackBall />;
   }
   
-  // Use useTexture with proper signature (only 1-2 arguments allowed)
-  const [decal] = useTexture([imgUrl]);
+  // If texture didn't load properly, show fallback
+  if (!texture) {
+    return <FallbackBall />;
+  }
 
   return (
     <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
@@ -106,14 +121,12 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
           polygonOffsetFactor={-5}
           flatShading
         />
-        {decal && (
-          <Decal
-            position={[0, 0, 1]}
-            rotation={[2 * Math.PI, 0, 6.25]}
-            scale={1}
-            map={decal}
-          />
-        )}
+        <Decal
+          position={[0, 0, 1]}
+          rotation={[2 * Math.PI, 0, 6.25]}
+          scale={1}
+          map={texture}
+        />
       </mesh>
     </Float>
   );
@@ -121,7 +134,7 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
 
 interface BallCanvasProps {
   icon: string;
-  enableRotation?: boolean; // Add prop to control rotation
+  enableRotation?: boolean;
 }
 
 const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false }) => {
@@ -135,7 +148,7 @@ const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false })
         <BallErrorBoundary>
           <OrbitControls 
             enableZoom={false} 
-            enableRotate={enableRotation} // Use prop to control rotation
+            enableRotate={enableRotation}
             enablePan={false}
           />
           <Ball imgUrl={icon} />
