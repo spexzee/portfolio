@@ -120,14 +120,22 @@ const Ball: React.FC<BallProps> = ({ imgUrl }) => {
         return false;
       }
       
-      // Now safely call trim since we know url is a valid string
-      const trimmedUrl = `${url}`.trim();
+      // Convert to string and check for empty values without using trim
+      const urlStr = String(url || '');
       
-      // Check if trimmed URL is not empty and has valid format
-      return trimmedUrl !== '' && 
-             (trimmedUrl.startsWith('http') || 
-              trimmedUrl.startsWith('/') || 
-              trimmedUrl.startsWith('data:'));
+      // Check if URL has content by checking length and removing whitespace manually
+      const hasContent = urlStr.length > 0 && urlStr.replace(/\s/g, '').length > 0;
+      
+      if (!hasContent) {
+        return false;
+      }
+      
+      // Check if URL has valid format without trimming
+      const startsWithHttp = urlStr.indexOf('http') === 0 || urlStr.indexOf('https') === 0;
+      const startsWithSlash = urlStr.indexOf('/') === 0;
+      const startsWithData = urlStr.indexOf('data:') === 0;
+      
+      return startsWithHttp || startsWithSlash || startsWithData;
     } catch (error) {
       console.warn('URL validation error:', error);
       return false;

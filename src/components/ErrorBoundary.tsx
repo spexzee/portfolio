@@ -80,7 +80,12 @@ const ErrorDebugDialog: React.FC<{
       .split('\n')
       .filter(line => line.includes('at ') && (line.includes('.tsx') || line.includes('.jsx') || line.includes('Component')))
       .slice(0, 5)
-      .map(line => line.trim());
+      .map(line => {
+        // Safe string processing without trim
+        const lineStr = String(line || '');
+        // Remove leading and trailing whitespace manually
+        return lineStr.replace(/^\s+|\s+$/g, '');
+      });
     
     return stack.length > 0 ? stack : null;
   };
