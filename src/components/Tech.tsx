@@ -29,25 +29,21 @@ const FRICTION = 0.98; // Realistic friction
 const SETTLE_THRESHOLD = 0.1; // Better settling threshold
 const MIN_COLLISION_DISTANCE = BALL_SIZE * 0.85; // Improved collision detection
 
-// Mobile detection hook
-const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
+// WebGL detection hook
+const useWebGLSupport = () => {
+  const [webglSupported, setWebglSupported] = useState(true);
   
   useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'iemobile', 'opera mini'];
-      const isMobileDevice = mobileKeywords.some(keyword => userAgent.includes(keyword));
-      const isSmallScreen = window.innerWidth <= 768;
-      setIsMobile(isMobileDevice || isSmallScreen);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      setWebglSupported(!!gl);
+    } catch (e) {
+      setWebglSupported(false);
+    }
   }, []);
   
-  return isMobile;
+  return webglSupported;
 };
 
 const BouncyBall: React.FC<{ 
@@ -56,7 +52,7 @@ const BouncyBall: React.FC<{
   index: number;
   showLabel?: boolean; // Add prop to control label visibility
 }> = ({ technology, ball, index, showLabel = true }) => {
-  const isMobile = useIsMobile();
+  const webglSupported = useWebGLSupport();
   
   // Create springs for this specific ball
   const [springs, api] = useSpring(() => ({
@@ -107,23 +103,25 @@ const BouncyBall: React.FC<{
     }
   );
 
-  // Enhanced fallback for mobile
-  const TechFallback = () => (
-    <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40 shadow-lg">
-      {technology?.icon ? (
-        <img 
-          src={technology.icon} 
-          alt={technology.name}
-          className="w-16 h-16 object-contain"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = 'none';
-            (e.target as HTMLImageElement).nextElementSibling!.textContent = '⚡';
-          }}
-        />
-      ) : null}
-      <div className="text-2xl">⚡</div>
-    </div>
-  );
+  // Enhanced fallback for non-WebGL devices only
+  const TechFallback = () => {
+    const [imageError, setImageError] = useState(false);
+    
+    return (
+      <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40 shadow-lg">
+        {technology?.icon && !imageError ? (
+          <img 
+            src={technology.icon} 
+            alt={technology.name}
+            className="w-16 h-16 object-contain"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="text-2xl">⚡</div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <animated.div
@@ -143,15 +141,15 @@ const BouncyBall: React.FC<{
       className="flex flex-col items-center justify-start select-none" // Changed to justify-start
     >
       <div className="w-28 h-28 pointer-events-none relative">
-        {isMobile ? (
-          <TechFallback />
-        ) : (
+        {webglSupported ? (
           <MobileCompatibilityWrapper
             componentName="BallCanvas"
             fallback={<TechFallback />}
           >
             <BallCanvas icon={technology?.icon || ''} enableRotation={false} />
           </MobileCompatibilityWrapper>
+        ) : (
+          <TechFallback />
         )}
       </div>
       {showLabel && (
@@ -385,37 +383,39 @@ const Tech: React.FC = () => {
 
   // Static grid component for non-gravity mode
   const StaticTechGrid = () => {
-    const isMobile = useIsMobile();
+    const webglSupported = useWebGLSupport();
     
     const TechItem = ({ technology }: { technology: Technology }) => {
-      const TechFallback = () => (
-        <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40 shadow-lg">
-          {technology?.icon ? (
-            <img 
-              src={technology.icon} 
-              alt={technology.name}
-              className="w-16 h-16 object-contain"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-                (e.target as HTMLImageElement).nextElementSibling!.textContent = '⚡';
-              }}
-            />
-          ) : null}
-          <div className="text-2xl">⚡</div>
-        </div>
-      );
+      const TechFallback = () => {
+        const [imageError, setImageError] = useState(false);
+        
+        return (
+          <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40 shadow-lg">
+            {technology?.icon && !imageError ? (
+              <img 
+                src={technology.icon} 
+                alt={technology.name}
+                className="w-16 h-16 object-contain"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <div className="text-2xl">⚡</div>
+            )}
+          </div>
+        );
+      };
       
       return (
         <div className='w-28 h-28 flex flex-col items-center' key={technology.name}>
-          {isMobile ? (
-            <TechFallback />
-          ) : (
+          {webglSupported ? (
             <MobileCompatibilityWrapper
               componentName={`BallCanvas-${technology.name}`}
               fallback={<TechFallback />}
             >
               <BallCanvas icon={technology.icon || ''} enableRotation={true} />
             </MobileCompatibilityWrapper>
+          ) : (
+            <TechFallback />
           )}
           <p className="text-center text-xs mt-2 text-white/80 font-medium">{technology.name}</p>
         </div>
