@@ -29,12 +29,35 @@ const FRICTION = 0.98; // Realistic friction
 const SETTLE_THRESHOLD = 0.1; // Better settling threshold
 const MIN_COLLISION_DISTANCE = BALL_SIZE * 0.85; // Improved collision detection
 
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'iemobile', 'opera mini'];
+      const isMobileDevice = mobileKeywords.some(keyword => userAgent.includes(keyword));
+      const isSmallScreen = window.innerWidth <= 768;
+      setIsMobile(isMobileDevice || isSmallScreen);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
+
 const BouncyBall: React.FC<{ 
   technology: Technology; 
   ball: BallData;
   index: number;
   showLabel?: boolean; // Add prop to control label visibility
 }> = ({ technology, ball, index, showLabel = true }) => {
+  const isMobile = useIsMobile();
+  
   // Create springs for this specific ball
   const [springs, api] = useSpring(() => ({
     x: ball.x,
@@ -84,6 +107,24 @@ const BouncyBall: React.FC<{
     }
   );
 
+  // Enhanced fallback for mobile
+  const TechFallback = () => (
+    <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40 shadow-lg">
+      {technology?.icon ? (
+        <img 
+          src={technology.icon} 
+          alt={technology.name}
+          className="w-16 h-16 object-contain"
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = 'none';
+            (e.target as HTMLImageElement).nextElementSibling!.textContent = '⚡';
+          }}
+        />
+      ) : null}
+      <div className="text-2xl">⚡</div>
+    </div>
+  );
+
   return (
     <animated.div
       {...bind()}
@@ -102,16 +143,16 @@ const BouncyBall: React.FC<{
       className="flex flex-col items-center justify-start select-none" // Changed to justify-start
     >
       <div className="w-28 h-28 pointer-events-none relative">
-        <MobileCompatibilityWrapper
-          componentName="BallCanvas"
-          fallback={
-            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40">
-              <div className="text-2xl">⚡</div>
-            </div>
-          }
-        >
-          <BallCanvas icon={technology?.icon || ''} enableRotation={false} />
-        </MobileCompatibilityWrapper>
+        {isMobile ? (
+          <TechFallback />
+        ) : (
+          <MobileCompatibilityWrapper
+            componentName="BallCanvas"
+            fallback={<TechFallback />}
+          >
+            <BallCanvas icon={technology?.icon || ''} enableRotation={false} />
+          </MobileCompatibilityWrapper>
+        )}
       </div>
       {showLabel && (
         <div className="mt-1 w-full text-center pointer-events-none">
@@ -343,25 +384,52 @@ const Tech: React.FC = () => {
   }, [balls.length, gravityMode]);
 
   // Static grid component for non-gravity mode
-  const StaticTechGrid = () => (
-    <div className="flex flex-row flex-wrap justify-center gap-10">
-      {technologies.map((technology: Technology) => (
+  const StaticTechGrid = () => {
+    const isMobile = useIsMobile();
+    
+    const TechItem = ({ technology }: { technology: Technology }) => {
+      const TechFallback = () => (
+        <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40 shadow-lg">
+          {technology?.icon ? (
+            <img 
+              src={technology.icon} 
+              alt={technology.name}
+              className="w-16 h-16 object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+                (e.target as HTMLImageElement).nextElementSibling!.textContent = '⚡';
+              }}
+            />
+          ) : null}
+          <div className="text-2xl">⚡</div>
+        </div>
+      );
+      
+      return (
         <div className='w-28 h-28 flex flex-col items-center' key={technology.name}>
-          <MobileCompatibilityWrapper
-            componentName={`BallCanvas-${technology.name}`}
-            fallback={
-              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40">
-                <div className="text-2xl">⚡</div>
-              </div>
-            }
-          >
-            <BallCanvas icon={technology.icon || ''} enableRotation={true} />
-          </MobileCompatibilityWrapper>
+          {isMobile ? (
+            <TechFallback />
+          ) : (
+            <MobileCompatibilityWrapper
+              componentName={`BallCanvas-${technology.name}`}
+              fallback={<TechFallback />}
+            >
+              <BallCanvas icon={technology.icon || ''} enableRotation={true} />
+            </MobileCompatibilityWrapper>
+          )}
           <p className="text-center text-xs mt-2 text-white/80 font-medium">{technology.name}</p>
         </div>
-      ))}
-    </div>
-  );
+      );
+    };
+    
+    return (
+      <div className="flex flex-row flex-wrap justify-center gap-10">
+        {technologies.map((technology: Technology) => (
+          <TechItem key={technology.name} technology={technology} />
+        ))}
+      </div>
+    );
+  };
 
   // Toggle button component
   const GravityToggle = () => (
