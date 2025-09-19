@@ -108,51 +108,51 @@ const technologies: Technology[] = [
   },
   {
     name: "CSS 3",
-    icon: css,
+    icon: css || '',
   },
   {
     name: "JavaScript",
-    icon: javascript,
+    icon: javascript || '',
   },
   {
     name: "TypeScript",
-    icon: typescript,
+    icon: typescript || '',
   },
   {
     name: "React JS",
-    icon: reactjs,
+    icon: reactjs || '',
   },
   {
     name: "Next JS",
-    icon: Next,
+    icon: Next || '',
   },
   {
     name: "Redux/RTK",
-    icon: redux,
+    icon: redux || '',
   },
   {
     name: "MongoDB",
-    icon: mongodb,
+    icon: mongodb || '',
   },
   {
     name: "Node.js",
-    icon: nodejs,
+    icon: nodejs || '',
   },
   {
     name: "Express.js",
-    icon: express,
+    icon: express || '',
   },
   {
     name: "Tailwind CSS",
-    icon: tailwind,
+    icon: tailwind || '',
   },
   {
     name: "Git",
-    icon: git,
+    icon: git || '',
   },
   {
     name: "GitHub",
-    icon: iconGithub,
+    icon: iconGithub || '',
   },
 ];
 

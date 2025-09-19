@@ -11,6 +11,7 @@ import MyButton from './MyButton';
 import SimpleLoader from './SimpleLoader';
 import ErrorBoundary from './ErrorBoundary';
 import ErrorTestButton from './ErrorTestButton';
+import MobileCompatibilityWrapper from './MobileCompatibilityWrapper';
 
 export {
   Hero,
@@ -27,5 +28,6 @@ export {
   MyButton,
   SimpleLoader,
   ErrorBoundary,
-  ErrorTestButton
+  ErrorTestButton,
+  MobileCompatibilityWrapper
 }

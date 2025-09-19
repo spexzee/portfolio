@@ -8,7 +8,7 @@ import { styles } from "../styles";
 import { textVariant } from "./../utils/motion";
 import { Technology } from "../constants";
 import { useGetTechnologies } from "../API/tech";
-import { SimpleLoader } from "./";
+import { SimpleLoader, MobileCompatibilityWrapper } from "./";
 
 interface BallData {
   id: string;
@@ -102,7 +102,16 @@ const BouncyBall: React.FC<{
       className="flex flex-col items-center justify-start select-none" // Changed to justify-start
     >
       <div className="w-28 h-28 pointer-events-none relative">
-        <BallCanvas icon={technology?.icon || ''} enableRotation={false} />
+        <MobileCompatibilityWrapper
+          componentName="BallCanvas"
+          fallback={
+            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40">
+              <div className="text-2xl">⚡</div>
+            </div>
+          }
+        >
+          <BallCanvas icon={technology?.icon || ''} enableRotation={false} />
+        </MobileCompatibilityWrapper>
       </div>
       {showLabel && (
         <div className="mt-1 w-full text-center pointer-events-none">
@@ -338,7 +347,16 @@ const Tech: React.FC = () => {
     <div className="flex flex-row flex-wrap justify-center gap-10">
       {technologies.map((technology: Technology) => (
         <div className='w-28 h-28 flex flex-col items-center' key={technology.name}>
-          <BallCanvas icon={technology.icon || ''} enableRotation={true} />
+          <MobileCompatibilityWrapper
+            componentName={`BallCanvas-${technology.name}`}
+            fallback={
+              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center border border-purple-400/40">
+                <div className="text-2xl">⚡</div>
+              </div>
+            }
+          >
+            <BallCanvas icon={technology.icon || ''} enableRotation={true} />
+          </MobileCompatibilityWrapper>
           <p className="text-center text-xs mt-2 text-white/80 font-medium">{technology.name}</p>
         </div>
       ))}
@@ -434,16 +452,6 @@ const Tech: React.FC = () => {
               />
             );
           })}
-
-          {/* Instructions for Physics Mode */}
-          <div className="absolute top-4 left-4 text-cyan-300/80 text-sm z-20">
-            <p className="flex items-center gap-2">
-              <span className="animate-bounce">🎯</span> Drag and drop the balls!
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="animate-pulse">⚡</span> Watch them fall and bounce!
-            </p>
-          </div>
         </div>
       ) : (
         <StaticTechGrid />

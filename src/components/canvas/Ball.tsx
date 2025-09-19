@@ -84,7 +84,18 @@ const FallbackBall: React.FC = () => (
 
 // Enhanced Ball component with better texture handling
 const BallWithTexture: React.FC<{ imgUrl: string }> = ({ imgUrl }) => {
-  const [texture] = useTexture([imgUrl]);
+  // Create a safe URL string that avoids null/undefined issues
+  const safeUrl = React.useMemo(() => {
+    if (!imgUrl || typeof imgUrl !== 'string') {
+      return null;
+    }
+    // Manually clean the URL string without using trim() to avoid mobile issues
+    const cleanUrl = String(imgUrl).replace(/^\s+|\s+$/g, '');
+    return cleanUrl.length > 0 ? cleanUrl : null;
+  }, [imgUrl]);
+
+  // Only load texture if we have a valid URL
+  const texture = safeUrl ? useTexture(safeUrl) : null;
   
   return (
     <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
@@ -162,8 +173,39 @@ interface BallCanvasProps {
 }
 
 const BallCanvas: React.FC<BallCanvasProps> = ({ icon, enableRotation = false }) => {
-  // Add additional safety check for icon prop
-  const safeIcon = icon || '';
+  // Create a comprehensive safe icon processing
+  const safeIcon = React.useMemo(() => {
+    try {
+      // Handle null, undefined, or non-string values
+      if (!icon || typeof icon !== 'string') {
+        return '';
+      }
+      
+      // Convert to string and safely process without trim
+      const iconStr = String(icon);
+      
+      // Remove leading/trailing whitespace manually
+      const cleanIcon = iconStr.replace(/^\s+|\s+$/g, '');
+      
+      // Validate the cleaned icon
+      if (cleanIcon.length === 0) {
+        return '';
+      }
+      
+      // Additional validation for common URL patterns
+      const isValidPath = (
+        cleanIcon.indexOf('./') === 0 || 
+        cleanIcon.indexOf('/') === 0 || 
+        cleanIcon.indexOf('http') === 0 || 
+        cleanIcon.indexOf('data:') === 0
+      );
+      
+      return isValidPath ? cleanIcon : '';
+    } catch (error) {
+      console.warn('Icon processing error:', error);
+      return '';
+    }
+  }, [icon]);
   
   return (
     <Canvas

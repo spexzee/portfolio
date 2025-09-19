@@ -6,6 +6,7 @@ import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
+import { MobileCompatibilityWrapper } from "./";
 
 interface FormData {
   name: string;
@@ -136,18 +137,22 @@ const Contact: React.FC = () => {
         variants={slideIn("right", "tween", 0.2, 1)}
         className='xl:flex-1 xl:h-auto md:h-[550px] h-[350px]'
       >
-        <div className="w-full h-full relative">
-          <EarthCanvas />
-          {/* Fallback content if Earth fails to load */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="text-center text-secondary opacity-50">
-              <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30 animate-pulse" />
+        <MobileCompatibilityWrapper 
+          componentName="EarthCanvas"
+          fallback={
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-lg border border-blue-500/30">
+              <div className="text-center text-blue-300">
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+                  <div className="text-4xl">🌍</div>
+                </div>
+                <p className="text-sm">3D Earth View</p>
+                <p className="text-xs text-gray-400 mt-1">Optimized for your device</p>
               </div>
-              <p className="text-sm">Loading 3D Earth...</p>
             </div>
-          </div>
-        </div>
+          }
+        >
+          <EarthCanvas />
+        </MobileCompatibilityWrapper>
       </motion.div>
     </div>
   );

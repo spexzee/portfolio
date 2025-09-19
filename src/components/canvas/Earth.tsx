@@ -54,7 +54,14 @@ class EarthErrorBoundary extends Component<EarthErrorBoundaryProps, EarthErrorBo
 
 // Separate component for GLTF loading with proper error handling
 const EarthModel: React.FC = () => {
-  const earth = useGLTF("./planet/scene.gltf");
+  // Safe GLTF loading with error protection
+  const modelPath = React.useMemo(() => {
+    const path = "./planet/scene.gltf";
+    // Ensure path is clean and valid
+    return typeof path === 'string' && path.length > 0 ? path : null;
+  }, []);
+
+  const earth = useGLTF(modelPath || "./planet/scene.gltf");
   const meshRef = useRef<THREE.Group>(null);
   
   // Auto-rotate the planet
