@@ -8,8 +8,8 @@ const ErrorTestButton: React.FC = () => {
     throw new Error('Test error from ErrorTestButton component for debugging error boundary');
   }
   
-  if (!import.meta.env.DEV) {
-    return null; // Don't show in production
+  if (!import.meta.env.DEV || true) { // Temporarily disabled
+    return null; // Don't show in production or when disabled
   }
   
   return (
