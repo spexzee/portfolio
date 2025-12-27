@@ -1,4 +1,5 @@
-FROM node:20.19.0
+# ---------- Stage 1: Build ----------
+FROM node:20.19.0 AS builder
 
 WORKDIR /app
 
@@ -6,11 +7,17 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-
-# This will fail the Docker build if there are TypeScript/build errors
 RUN npm run build
 
-# Verify that the build directory exists
-RUN test -d dist || (echo "Build failed - dist directory not found" && exit 1)
+# ---------- Stage 2: Production ----------
+FROM nginx:alpine
 
-CMD ["sh", "-c", "echo Build completed successfully"]
+# Remove default nginx static files
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy build output from builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
