@@ -8,6 +8,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
+  // This will cause a TypeScript build error for testing CI
+  nonExistentFunction();
+
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
