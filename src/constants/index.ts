@@ -280,7 +280,7 @@ const experiences: Experience[] = [
     company_name: "Ornate Interior Decor",
     icon: reactjs,
     iconBg: "#383E56",
-    date: "September 2024 - Present",
+    date: "September 2023 - Present",
     points: [
       "Designed and maintained company and client projects using React.js, TypeScript, and Next.js, enhancing user experience, accessibility, and SEO performance.",
       "Contributed most of production code after joining, driving development of new features and functionality.",
