@@ -3,7 +3,7 @@ import { styles } from '../styles';
 
 const Hero: React.FC = () => {
   const handleClickResume = (): void => {
-    window.open('https://ik.imagekit.io/spexzee/resume/Abubakara_Nadafa.pdf');
+    window.open('https://drive.google.com/file/d/1YzGqfLszQ4SSC3CxHoGW5UvEHu7YiAkW/view?usp=sharing');
   }
 
   return (
